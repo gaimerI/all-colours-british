@@ -24,6 +24,21 @@ function calculateTypeEffectiveness(attackType, targetType) {
     return typeEffectiveness[attackType]?.[targetType] || 1;
 }
 
+function calculateCriticalHit() {
+    return Math.random() < 0.1 ? 1.5 : 1; // 10% chance of critical hit
+}
+
+function applyStatusEffects(creature) {
+    if (creature.status === 'burn') {
+        creature.hp -= 2; // Burn deals passive damage
+        logMessage(`${creature.name} is hurt by burn!`);
+    } else if (creature.status === 'paralyze' && Math.random() < 0.25) {
+        logMessage(`${creature.name} is paralyzed and can't move!`);
+        return false; // Skip turn
+    }
+    return true;
+}
+
 function updateUI() {
     // Update Player Info
     document.getElementById('player-name').innerText = `Name: ${playerCreature.name}`;
@@ -33,7 +48,8 @@ function updateUI() {
 
     playerCreature.attacks.forEach(attack => {
         const button = document.createElement('button');
-        button.innerText = `${attack.name} (Damage: ${attack.damage}, Type: ${attack.type})`;
+        const effectiveness = calculateTypeEffectiveness(attack.type, enemyCreature.type);
+        button.innerText = `${attack.name} (Damage: ${attack.damage}, Type: ${attack.type}, Effectiveness: ${effectiveness}x)`;
         button.onclick = () => attackEnemy(attack);
         playerAttacksDiv.appendChild(button);
     });
@@ -50,6 +66,14 @@ function logMessage(message) {
     log.appendChild(entry);
 }
 
+function endGame(message) {
+    logMessage(message);
+    const replayButton = document.createElement('button');
+    replayButton.innerText = 'Play Again';
+    replayButton.onclick = () => location.reload();
+    document.getElementById('battle-log').appendChild(replayButton);
+}
+
 // Battle logic
 function attackEnemy(attack) {
     if (enemyCreature.hp <= 0) {
@@ -57,32 +81,47 @@ function attackEnemy(attack) {
         return;
     }
 
-    // Calculate effectiveness
+    // Apply critical hit
+    const isCritical = calculateCriticalHit();
     const effectiveness = calculateTypeEffectiveness(attack.type, enemyCreature.type);
-    const damageDealt = attack.damage * effectiveness;
+    const damageDealt = attack.damage * effectiveness * isCritical;
 
     // Player attacks enemy
     enemyCreature.hp -= damageDealt;
-    logMessage(`${playerCreature.name} used ${attack.name}! It's ${effectiveness > 1 ? "super effective" : effectiveness < 1 ? "not very effective" : "normal"}! It dealt ${damageDealt.toFixed(1)} damage!`);
+    logMessage(`${playerCreature.name} used ${attack.name}! ${isCritical > 1 ? "Critical hit! " : ""}${effectiveness > 1 ? "Super effective!" : effectiveness < 1 ? "Not very effective." : ""} It dealt ${damageDealt.toFixed(1)} damage!`);
 
     // Check if enemy is defeated
     if (enemyCreature.hp <= 0) {
         logMessage(`${enemyCreature.name} is defeated! You win!`);
+        endGame('Victory!');
+        return;
+    }
+
+    // Check and apply status effects
+    if (attack.status) {
+        enemyCreature.status = attack.status;
+        logMessage(`${enemyCreature.name} is now ${attack.status}!`);
+    }
+
+    // Enemy counterattacks
+    if (!applyStatusEffects(enemyCreature)) {
         updateUI();
         return;
     }
 
-    // Enemy counterattacks
     const enemyAttack = enemyCreature.attacks[Math.floor(Math.random() * enemyCreature.attacks.length)];
     const enemyEffectiveness = calculateTypeEffectiveness(enemyAttack.type, playerCreature.type);
-    const enemyDamageDealt = enemyAttack.damage * enemyEffectiveness;
+    const enemyIsCritical = calculateCriticalHit();
+    const enemyDamageDealt = enemyAttack.damage * enemyEffectiveness * enemyIsCritical;
 
     playerCreature.hp -= enemyDamageDealt;
-    logMessage(`${enemyCreature.name} used ${enemyAttack.name}! It's ${enemyEffectiveness > 1 ? "super effective" : enemyEffectiveness < 1 ? "not very effective" : "normal"}! It dealt ${enemyDamageDealt.toFixed(1)} damage!`);
+    logMessage(`${enemyCreature.name} used ${enemyAttack.name}! ${enemyIsCritical > 1 ? "Critical hit! " : ""}${enemyEffectiveness > 1 ? "Super effective!" : enemyEffectiveness < 1 ? "Not very effective." : ""} It dealt ${enemyDamageDealt.toFixed(1)} damage!`);
 
     // Check if player is defeated
     if (playerCreature.hp <= 0) {
         logMessage(`${playerCreature.name} is defeated! You lose!`);
+        endGame('Defeat!');
+        return;
     }
 
     updateUI();
