@@ -7,7 +7,7 @@
             { "name": "Thunder Shock", "damage": 20, "type": "electric" },
             { "name": "Quick Attack", "damage": 10, "type": "normal" },
             { "name": "Iron Tail", "damage": 15, "type": "steel" },
-            { "name": "Tail Whip", "damage"" 0, "type": "normal", "effect": "lowerAttack", "value": 0.5 }
+            { "name": "Tail Whip", "damage" 0, "type": "normal", "effect": "lowerAttack", "value": 0.5 }
         ]
     },
     {
