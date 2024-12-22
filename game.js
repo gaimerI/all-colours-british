@@ -69,7 +69,7 @@ function attackEnemy(attack) {
 // Initialize game
 async function initGame() {
     const creatures = await fetchCreatureData();
-    playerCreature = creatures[0]; // Assume player gets the first creature
+    playerCreature = creatures[2]; // Assume player gets the first creature
     enemyCreature = creatures[1];  // Assume enemy gets the second creature
 
     logMessage('Game started!');
