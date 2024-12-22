@@ -49,7 +49,7 @@ function updateUI() {
     playerCreature.attacks.forEach(attack => {
         const button = document.createElement('button');
         const effectiveness = calculateTypeEffectiveness(attack.type, enemyCreature.type);
-        button.innerText = `${attack.name} (Damage: ${attack.damage}, Type: ${attack.type}, Effectiveness: ${effectiveness}x)`;
+        button.innerText = `${attack.name} (Type: ${attack.type}${attack.damage ? `, Damage: ${attack.damage}, Effectiveness: ${effectiveness}x` : ''})`;
         button.onclick = () => attackEnemy(attack);
         playerAttacksDiv.appendChild(button);
     });
@@ -81,26 +81,37 @@ function attackEnemy(attack) {
         return;
     }
 
-    // Apply critical hit
-    const isCritical = calculateCriticalHit();
-    const effectiveness = calculateTypeEffectiveness(attack.type, enemyCreature.type);
-    const damageDealt = attack.damage * effectiveness * isCritical;
+    if (attack.effect) {
+        // Status moves
+        if (attack.effect === 'heal') {
+            const healAmount = Math.min(attack.value, playerCreature.maxHp - playerCreature.hp);
+            playerCreature.hp += healAmount;
+            logMessage(`${playerCreature.name} used ${attack.name} and healed ${healAmount} HP!`);
+        } else if (attack.effect === 'boost') {
+            playerCreature.attackBoost = (playerCreature.attackBoost || 1) + attack.value;
+            logMessage(`${playerCreature.name} used ${attack.name} and boosted their attack!`);
+        } else if (attack.effect === 'lowerAttack') {
+            enemyCreature.attackBoost = (enemyCreature.attackBoost || 1) - attack.value;
+            logMessage(`${playerCreature.name} used ${attack.name} and lowered ${enemyCreature.name}'s attack!`);
+        } else if (attack.effect === 'status') {
+            enemyCreature.status = attack.value;
+            logMessage(`${enemyCreature.name} is now ${attack.value}!`);
+        }
+    } else {
+        // Normal damage moves
+        const isCritical = calculateCriticalHit();
+        const effectiveness = calculateTypeEffectiveness(attack.type, enemyCreature.type);
+        const damageDealt = attack.damage * effectiveness * isCritical * (playerCreature.attackBoost || 1);
 
-    // Player attacks enemy
-    enemyCreature.hp -= damageDealt;
-    logMessage(`${playerCreature.name} used ${attack.name}! ${isCritical > 1 ? "Critical hit! " : ""}${effectiveness > 1 ? "Super effective!" : effectiveness < 1 ? "Not very effective." : ""} It dealt ${damageDealt.toFixed(1)} damage!`);
+        enemyCreature.hp -= damageDealt;
+        logMessage(`${playerCreature.name} used ${attack.name}! ${isCritical > 1 ? "Critical hit! " : ""}${effectiveness > 1 ? "Super effective!" : effectiveness < 1 ? "Not very effective." : ""} It dealt ${damageDealt.toFixed(1)} damage!`);
+    }
 
     // Check if enemy is defeated
     if (enemyCreature.hp <= 0) {
         logMessage(`${enemyCreature.name} is defeated! You win!`);
         endGame('Victory!');
         return;
-    }
-
-    // Check and apply status effects
-    if (attack.status) {
-        enemyCreature.status = attack.status;
-        logMessage(`${enemyCreature.name} is now ${attack.status}!`);
     }
 
     // Enemy counterattacks
@@ -112,7 +123,7 @@ function attackEnemy(attack) {
     const enemyAttack = enemyCreature.attacks[Math.floor(Math.random() * enemyCreature.attacks.length)];
     const enemyEffectiveness = calculateTypeEffectiveness(enemyAttack.type, playerCreature.type);
     const enemyIsCritical = calculateCriticalHit();
-    const enemyDamageDealt = enemyAttack.damage * enemyEffectiveness * enemyIsCritical;
+    const enemyDamageDealt = enemyAttack.damage * enemyEffectiveness * enemyIsCritical * (enemyCreature.attackBoost || 1);
 
     playerCreature.hp -= enemyDamageDealt;
     logMessage(`${enemyCreature.name} used ${enemyAttack.name}! ${enemyIsCritical > 1 ? "Critical hit! " : ""}${enemyEffectiveness > 1 ? "Super effective!" : enemyEffectiveness < 1 ? "Not very effective." : ""} It dealt ${enemyDamageDealt.toFixed(1)} damage!`);
@@ -132,6 +143,10 @@ async function initGame() {
     const creatures = await fetchCreatureData();
     playerCreature = creatures[2]; // Assume player gets the first creature
     enemyCreature = creatures[1];  // Assume enemy gets the second creature
+
+    // Add max HP for healing logic
+    playerCreature.maxHp = playerCreature.hp;
+    enemyCreature.maxHp = enemyCreature.hp;
 
     logMessage('Game started!');
     updateUI();
