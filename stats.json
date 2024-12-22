@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Pikachu",
+        "hp": 100,
+        "attacks": [
+            { "name": "Thunder Shock", "damage": 20 },
+            { "name": "Quick Attack", "damage": 10 },
+            { "name": "Iron Tail", "damage": 15 }
+        ]
+    },
+    {
+        "name": "Charmander",
+        "hp": 80,
+        "attacks": [
+            { "name": "Ember", "damage": 15 },
+            { "name": "Scratch", "damage": 10 },
+            { "name": "Flamethrower", "damage": 25 }
+        ]
+    }
+]
