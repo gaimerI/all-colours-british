@@ -2,19 +2,31 @@
     {
         "name": "Pikachu",
         "hp": 100,
+        "type": "electric",
         "attacks": [
-            { "name": "Thunder Shock", "damage": 20 },
-            { "name": "Quick Attack", "damage": 10 },
-            { "name": "Iron Tail", "damage": 15 }
+            { "name": "Thunder Shock", "damage": 20, "type": "electric" },
+            { "name": "Quick Attack", "damage": 10, "type": "normal" },
+            { "name": "Iron Tail", "damage": 15, "type": "steel" }
         ]
     },
     {
         "name": "Charmander",
         "hp": 80,
+        "type": "fire",
         "attacks": [
-            { "name": "Ember", "damage": 15 },
-            { "name": "Scratch", "damage": 10 },
-            { "name": "Flamethrower", "damage": 25 }
+            { "name": "Ember", "damage": 15, "type": "fire" },
+            { "name": "Scratch", "damage": 10, "type": "normal" },
+            { "name": "Flamethrower", "damage": 25, "type": "fire" }
+        ]
+    },
+    {
+        "name": "Veluza",
+        "hp": 70,
+        "type": "water",
+        "attacks": [
+            { "name": "Fillet Away", "damage": 30, "type": "psychic" },
+            { "name": "Water Gun", "damage": 10, "type": "water" },
+            { "name": "Splash", "damage": 0, "type": "normal" }
         ]
     }
 ]
