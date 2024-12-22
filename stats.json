@@ -4,7 +4,7 @@
         "hp": 100,
         "type": "electric",
         "attacks": [
-            { "name": "Thunder Shock", "damage": 20, "type": "electric" },
+            { "name": "Thunder Shock", "damage": 20, "type": "electric", "status": "paralyze" },
             { "name": "Quick Attack", "damage": 10, "type": "normal" },
             { "name": "Iron Tail", "damage": 15, "type": "steel" }
         ]
@@ -14,7 +14,7 @@
         "hp": 80,
         "type": "fire",
         "attacks": [
-            { "name": "Ember", "damage": 15, "type": "fire" },
+            { "name": "Ember", "damage": 15, "type": "fire", "status": "burn" },
             { "name": "Scratch", "damage": 10, "type": "normal" },
             { "name": "Flamethrower", "damage": 25, "type": "fire" }
         ]
