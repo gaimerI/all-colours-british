@@ -6,7 +6,8 @@
         "attacks": [
             { "name": "Thunder Shock", "damage": 20, "type": "electric" },
             { "name": "Quick Attack", "damage": 10, "type": "normal" },
-            { "name": "Iron Tail", "damage": 15, "type": "steel" }
+            { "name": "Iron Tail", "damage": 15, "type": "steel" },
+            { "name": "Tail Whip", "type": "normal", "effect": "lowerAttack", "value": 0.5 }
         ]
     },
     {
@@ -16,7 +17,8 @@
         "attacks": [
             { "name": "Ember", "damage": 15, "type": "fire" },
             { "name": "Scratch", "damage": 10, "type": "normal" },
-            { "name": "Flamethrower", "damage": 25, "type": "fire" }
+            { "name": "Flamethrower", "damage": 25, "type": "fire" },
+            { "name": "Smoke Screen", "type": "fire", "effect": "status", "value": "paralyze" }
         ]
     },
     {
@@ -26,7 +28,8 @@
         "attacks": [
             { "name": "Fillet Away", "damage": 30, "type": "psychic" },
             { "name": "Water Gun", "damage": 10, "type": "water" },
-            { "name": "Splash", "damage": 0, "type": "normal" }
+            { "name": "Splash", "damage": 0, "type": "normal" },
+            { "name": "Aqua Heal", "type": "water", "effect": "heal", "value": 20 }
         ]
     }
 ]
