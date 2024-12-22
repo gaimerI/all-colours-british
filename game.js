@@ -1,3 +1,14 @@
+// Type effectiveness table
+const typeEffectiveness = {
+    fire: { grass: 2, water: 0.5, fire: 0.5, electric: 1 },
+    water: { fire: 2, grass: 0.5, water: 0.5, electric: 1 },
+    electric: { water: 2, grass: 1, electric: 0.5, fire: 1 },
+    grass: { water: 2, fire: 0.5, grass: 0.5, electric: 1 },
+    normal: { fire: 1, water: 1, electric: 1, grass: 1 },
+    psychic: { fire: 1, water: 1, electric: 1, grass: 1 },
+    steel: { fire: 0.5, water: 1, electric: 1, grass: 1 }
+};
+
 // Fetch creature data
 async function fetchCreatureData() {
     const response = await fetch('stats.json');
@@ -9,6 +20,10 @@ let playerCreature = null;
 let enemyCreature = null;
 
 // Helper functions
+function calculateTypeEffectiveness(attackType, targetType) {
+    return typeEffectiveness[attackType]?.[targetType] || 1;
+}
+
 function updateUI() {
     // Update Player Info
     document.getElementById('player-name').innerText = `Name: ${playerCreature.name}`;
@@ -18,7 +33,7 @@ function updateUI() {
 
     playerCreature.attacks.forEach(attack => {
         const button = document.createElement('button');
-        button.innerText = `${attack.name} (Damage: ${attack.damage})`;
+        button.innerText = `${attack.name} (Damage: ${attack.damage}, Type: ${attack.type})`;
         button.onclick = () => attackEnemy(attack);
         playerAttacksDiv.appendChild(button);
     });
@@ -42,9 +57,13 @@ function attackEnemy(attack) {
         return;
     }
 
+    // Calculate effectiveness
+    const effectiveness = calculateTypeEffectiveness(attack.type, enemyCreature.type);
+    const damageDealt = attack.damage * effectiveness;
+
     // Player attacks enemy
-    enemyCreature.hp -= attack.damage;
-    logMessage(`${playerCreature.name} used ${attack.name}! It dealt ${attack.damage} damage!`);
+    enemyCreature.hp -= damageDealt;
+    logMessage(`${playerCreature.name} used ${attack.name}! It's ${effectiveness > 1 ? "super effective" : effectiveness < 1 ? "not very effective" : "normal"}! It dealt ${damageDealt.toFixed(1)} damage!`);
 
     // Check if enemy is defeated
     if (enemyCreature.hp <= 0) {
@@ -55,8 +74,11 @@ function attackEnemy(attack) {
 
     // Enemy counterattacks
     const enemyAttack = enemyCreature.attacks[Math.floor(Math.random() * enemyCreature.attacks.length)];
-    playerCreature.hp -= enemyAttack.damage;
-    logMessage(`${enemyCreature.name} used ${enemyAttack.name}! It dealt ${enemyAttack.damage} damage!`);
+    const enemyEffectiveness = calculateTypeEffectiveness(enemyAttack.type, playerCreature.type);
+    const enemyDamageDealt = enemyAttack.damage * enemyEffectiveness;
+
+    playerCreature.hp -= enemyDamageDealt;
+    logMessage(`${enemyCreature.name} used ${enemyAttack.name}! It's ${enemyEffectiveness > 1 ? "super effective" : enemyEffectiveness < 1 ? "not very effective" : "normal"}! It dealt ${enemyDamageDealt.toFixed(1)} damage!`);
 
     // Check if player is defeated
     if (playerCreature.hp <= 0) {
