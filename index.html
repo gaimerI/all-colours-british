@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Every RGB colour</title>
+    <title>All RGB Colors</title>
+    <style>
+        .color-block {
+            width: 1px;
+            height: 1px;
+            float: left;
+        }
+    </style>
 </head>
 <body>
-    
+    <script>
+        function generateColors() {
+            for (let r = 0; r < 256; r++) {
+                for (let g = 0; g < 256; g++) {
+                    for (let b = 0; b < 256; b++) {
+                        const color = `rgb(${r},${g},${b})`;
+                        const div = document.createElement('div');
+                        div.className = 'color-block';
+                        div.style.backgroundColor = color;
+                        document.body.appendChild(div);
+                    }
+                }
+            }
+        }
+        generateColors();
+    </script>
 </body>
 </html>
