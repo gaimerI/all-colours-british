@@ -16,7 +16,7 @@
     <script>
         function generateColorsBatch(startIndex, batchSize) {
             for (let i = startIndex; i < startIndex + batchSize; i++) {
-                const r = (i >> 16) & 0xFF;
+                const r = (i >> 16) & 0xFF; // It seems to loop weirdly when reaching some point
                 const g = (i >> 8) & 0xFF;
                 const b = i & 0xFF;
                 const color = `rgb(${r},${g},${b})`;
@@ -29,7 +29,8 @@
 
         function generateColors() {
             const totalColors = 256 * 256 * 256;
-            const batchSize = 250; // Adjust batch size as needed
+            const batchSize = Math.min(1000, Math.max(100, Math.floor(window.innerWidth * window.innerHeight / 100))); // This (should) make it scale with window size
+
             let startIndex = 0;
 
             function loadNextBatch() {
