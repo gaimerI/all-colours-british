@@ -29,8 +29,7 @@
 
         function generateColors() {
             const totalColors = 256 * 256 * 256;
-            const batchSize = Math.min(1000, Math.max(100, Math.floor(window.innerWidth * window.innerHeight / 100))); // This (should) make it scale with window size
-
+            const batchSize = 1000; // Fuck small devices
             let startIndex = 0;
 
             function loadNextBatch() {
