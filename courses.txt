@@ -8,6 +8,39 @@ Optional courses in arts:
 - Design
 - Own Project
 
+Mandatory courses in Geography:
+- The World in Change
+
+Optional courses in Geography:
+- The Blue Planet
+- A Common World
+
+Mandatory courses in Physics:
+- Physics as a Science
+- Physics, Environment and Society
+
+Optional courses in Physics:
+- Energy and Heat
+- Power and Movement
+- Periodic Movement and Waves
+- Electricity
+- Electromagnetism and Light
+- Substance, Radiation and Quantization
+- Experimental Physics
+- Experimental ELectronics
+- Introduction to Advanced Physics
+
+Mandatory courses in Chemistry:
+- Chemistry and Human
+- Chemistry and Sustainable Future
+
+Optional courses in Chemistry:
+- Molecules and Models
+- Chemical Reaction
+- Chemical Energy and Conservation of Energy
+- Chemical Balance
+- Experimental Chemistry
+
 Mandatory courses in Philosophy:
 - Introduction to Philosophical Thinking
 - Ethics
