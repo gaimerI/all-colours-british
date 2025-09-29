@@ -1,12 +1,57 @@
-Mandatory courses in arts:
-- Shared Culture in Images
-- Environment, Locations and Phenomena
+Mandatory courses in English:
+- Interpretation and Writing of Texts
+- Language and Text Awareness
+- Interaction 1
+- Literature 1
+- Interpretation of Texts 1
+- Writing 1
+- Interaction 2
+- Literature 2
 
-Optional courses in arts:
-- Visual Communication and Influence
-- Many Worlds of Art
-- Design
-- Own Project
+Optional courses in English:
+- Interaction 3
+- Writing 2
+- Interpretation of Texts 2
+- Writing and Language Management
+- Reading Literature
+
+Mandatory courses in Foreign Language (Spanish, French, German or Russian):
+- Study Skills and Building a Language Identity
+- Language in a Global World and Social Skills
+- Language in Culture and Creative Expression
+- Influencing via Language
+
+Optional courses in Foreign Language (Spanish, French, German or Russian):
+- Environment and Sustainability
+- Message and Influence by Speaking
+
+Mandatory courses in Mathematics:
+- Numbers and Equations
+- Functions and Equations 1
+- Geometry
+- Functions and Equations 2
+- Statistic Calculation
+- Economic Mathematics
+
+Optional courses in Mathematics:
+- 3D Geometry
+- Analytical Geometry and Vectors
+- Algorithms
+- Analysis and Continuous Distribution
+- Derivation
+- Integral Calculation
+
+Mandatory courses in Biology:
+- Life and Evolution
+- Basics of Ecology
+- Human Impact on Ecosystems
+
+Optional courses in Biology:
+- Cell and Heredity
+- Human Biology
+- Biotechnology and its Applications
+- Biology Laboratory Course
+- Animal Behaviour and Species Identification
 
 Mandatory courses in Geography:
 - The World in Change
